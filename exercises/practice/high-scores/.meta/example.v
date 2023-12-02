@@ -1,7 +1,5 @@
 module main
 
-import arrays
-
 type HighScores = []int
 
 // build a new HighScores
@@ -18,15 +16,20 @@ pub fn (mut high_scores HighScores) latest() int {
 }
 
 pub fn (mut high_scores HighScores) personal_best() int {
-	return arrays.max(high_scores) or { 0 }
-//	mut sorted := (*high_scores).clone()
-	//sorted.sort()
-
-	//return sorted.last()
+	mut result := 0
+	for score in high_scores {
+		if result < score {
+			result = score
+		}
+	}
+	return result
 }
 
 pub fn (mut high_scores HighScores) personal_top_three() []int {
-	mut sorted := [1] // (*high_scores).clone()
+	mut sorted := []int{ cap: high_scores.len }
+	for score in high_scores {
+		sorted << score
+	}
 	sorted.sort()
 
 	if sorted.len > 3 {
