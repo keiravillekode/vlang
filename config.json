@@ -570,6 +570,14 @@
         "difficulty": 4
       },
       {
+        "slug": "yacht",
+        "name": "Yacht",
+        "uuid": "ba9f679f-a33f-4dbc-8373-bd926ffa7061",
+        "practices": [],
+        "prerequisites": [],
+        "difficulty": 4
+      },
+      {
         "uuid": "8c01dab7-daae-4ad6-adcc-f023296bda33",
         "slug": "rna-transcription",
         "name": "RNA Transcription",
