@@ -22,7 +22,7 @@ fn chi_squared(counts []int, weights []int) f64 {
 	return statistic
 }
 
-// tally_random_birthdates makes 129 calls to random_birthdates(365), checks
+// tally_random_birthdates makes 516 calls to random_birthdates(365), checks
 // that every birthdate is valid, and returns counts of each of the 129 non leap
 // years from 1929 to 2099, of each month, and of each day of the month.
 fn tally_random_birthdates() ([]int, []int, []int) {
@@ -30,7 +30,7 @@ fn tally_random_birthdates() ([]int, []int, []int) {
 	mut years := []int{len: 129}
 	mut months := []int{len: 12}
 	mut days := []int{len: 31}
-	for _ in 0 .. 129 {
+	for _ in 0 .. 516 {
 		birthdates := random_birthdates(365)
 		if birthdates.len != 365 {
 			assert false, 'random_birthdates(365) returned ${birthdates.len} birthdates'
