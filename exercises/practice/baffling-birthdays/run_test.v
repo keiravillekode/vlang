@@ -22,15 +22,15 @@ fn chi_squared(counts []int, weights []int) f64 {
 	return statistic
 }
 
-// tally makes 150 calls to random_birthdates(365), checks that every birthdate
-// is valid, and returns counts of each of the 150 non leap years from 1901 to
-// 2099, of each month, and of each day of the month.
-fn tally() ([]int, []int, []int) {
+// tally_random_birthdates makes 129 calls to random_birthdates(365), checks
+// that every birthdate is valid, and returns counts of each of the 129 non leap
+// years from 1929 to 2099, of each month, and of each day of the month.
+fn tally_random_birthdates() ([]int, []int, []int) {
 	month_lengths := [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-	mut years := []int{len: 150}
+	mut years := []int{len: 129}
 	mut months := []int{len: 12}
 	mut days := []int{len: 31}
-	for _ in 0 .. 150 {
+	for _ in 0 .. 129 {
 		birthdates := random_birthdates(365)
 		if birthdates.len != 365 {
 			assert false, 'random_birthdates(365) returned ${birthdates.len} birthdates'
@@ -42,8 +42,8 @@ fn tally() ([]int, []int, []int) {
 			year := birthdate[0..4].int()
 			month := birthdate[5..7].int()
 			day := birthdate[8..10].int()
-			if year < 1901 || year > 2099 {
-				assert false, '${birthdate} is not between 1901-01-01 and 2099-12-31'
+			if year < 1929 || year > 2099 {
+				assert false, '${birthdate} is not between 1929-01-01 and 2099-12-31'
 			}
 			if year % 4 == 0 {
 				assert false, '${birthdate} falls in the leap year ${year}'
@@ -54,7 +54,7 @@ fn tally() ([]int, []int, []int) {
 			if day < 1 || day > month_lengths[month - 1] {
 				assert false, '${birthdate} does not have a day within its month'
 			}
-			elapsed := year - 1901
+			elapsed := year - 1929
 			years[3 * (elapsed / 4) + elapsed % 4]++
 			months[month - 1]++
 			days[day - 1]++
@@ -114,21 +114,21 @@ fn test_generate_requested_number_of_birthdates() {
 // 0.000001 at each tail. Falling below the lower bound means the birthdates
 // are spread too evenly to have been drawn at random.
 fn test_years_are_not_leap_years() {
-	years, _, _ := tally()
-	statistic := chi_squared(years, []int{len: 150, init: 1})
-	assert statistic <= 245.88, 'the 150 non leap years from 1901 to 2099 are not equally likely (chi squared ${statistic}); counts were ${years}'
-	assert statistic >= 80.80, 'years are spread far too evenly to be random (chi squared ${statistic}); each birthdate must be drawn independently, rather than dealt out from a shuffled set of dates'
+	years, _, _ := tally_random_birthdates()
+	statistic := chi_squared(years, []int{len: 129, init: 1})
+	assert statistic <= 218.91, 'the 129 non leap years from 1929 to 2099 are not equally likely (chi squared ${statistic}); counts were ${years}'
+	assert statistic >= 65.75, 'years are spread far too evenly to be random (chi squared ${statistic}); each birthdate must be drawn independently, rather than dealt out from a shuffled set of dates'
 }
 
 fn test_months_are_random() {
-	_, months, _ := tally()
+	_, months, _ := tally_random_birthdates()
 	statistic := chi_squared(months, [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31])
 	assert statistic <= 48.87, 'months are not chosen in proportion to the number of days they contain (chi squared ${statistic}); counts were ${months}'
 	assert statistic >= 0.47, 'months are spread far too evenly to be random (chi squared ${statistic}); each birthdate must be drawn independently, rather than dealt out from a shuffled set of dates'
 }
 
 fn test_days_are_random() {
-	_, _, days := tally()
+	_, _, days := tally_random_birthdates()
 	// The 29th and 30th occur in eleven months, and the 31st in seven.
 	mut weights := []int{len: 31, init: 12}
 	weights[28] = 11

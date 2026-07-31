@@ -18,13 +18,13 @@ fn shared_birthday(birthdates []string) bool {
 	return false
 }
 
-// random_birthdate picks one of the 150 non leap years between 1901 and 2099,
+// random_birthdate picks one of the 129 non leap years between 1929 and 2099,
 // then one of that year's 365 days, so every birthday is equally likely.
 fn random_birthdate() string {
 	// Non leap years come in runs of three, so integer division by three
-	// spreads 0 .. 149 evenly over 1901, 1902, 1903, 1905, 1906, ... 2099.
-	index := rand.intn(150) or { 0 }
-	year := 1901 + 4 * (index / 3) + index % 3
+	// spreads 0 .. 128 evenly over 1929, 1930, 1931, 1933, 1934, ... 2099.
+	index := rand.intn(129) or { 0 }
+	year := 1929 + 4 * (index / 3) + index % 3
 
 	mut remaining := rand.intn(365) or { 0 }
 	mut month := 1
