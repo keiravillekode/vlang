@@ -809,6 +809,14 @@
         "difficulty": 5
       },
       {
+        "slug": "baffling-birthdays",
+        "name": "Baffling Birthdays",
+        "uuid": "47b6689c-3cb7-4955-89be-5d9735e35220",
+        "practices": [],
+        "prerequisites": [],
+        "difficulty": 6
+      },
+      {
         "slug": "bowling",
         "name": "Bowling",
         "uuid": "a62ffd58-12ae-414d-a5ba-fa970de81d02",
