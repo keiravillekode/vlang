@@ -27,14 +27,40 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-26.04, windows-2022, macOS-latest]
+        include:
+          - os: ubuntu-26.04
+            v_asset: v_linux.zip
+            v_sha256: 86caf9e70c3342d48ef19eb4f6c47b709f18c90ae86255520d5c29df6b482e23
+          - os: windows-2022
+            v_asset: v_windows.zip
+            v_sha256: 5f1d619b6b04a2b54b4ad21826a25bdcba2acf75a941c8f72fc95672b6b064ca
+          - os: macOS-latest
+            v_asset: v_macos_arm64.zip
+            v_sha256: e539a8dc3aeea47267f3cf00c25c4f0a364d8037fb13f5379d2a574a7abac8ee
+
+    env:
+      # Keep in sync with release_tag in the Dockerfile of exercism/vlang-test-runner.
+      # When changing the version, also update the v_sha256 checksums above.
+      V_VERSION: 0.5.2
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
+      # We install the prebuilt release, rather than using vlang/setup-v:
+      # setup-v builds V from source, bootstrapping from the latest commit of vlang/vc
+      # even when a version is specified, so breakage on V's master branch breaks our CI.
       - name: Setup Vlang
-        uses: vlang/setup-v@663cc08827d1fc0532ee755b4dedbb183c11d06a # v1.7
+        shell: bash
+        run: |
+          cd "${RUNNER_TEMP}"
+          curl --fail --silent --show-error --location --retry 3 --output v.zip \
+            "https://github.com/vlang/v/releases/download/${V_VERSION}/${{ matrix.v_asset }}"
+          echo "${{ matrix.v_sha256 }}  v.zip" | shasum --algorithm 256 --check
+          unzip -q v.zip
+          rm v.zip
+          echo "${PWD}/v" >> "${GITHUB_PATH}"
+          ./v/v version
 
       # - name: Install project dependencies
       #   run: <install dependencies>
