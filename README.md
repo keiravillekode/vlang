@@ -89,18 +89,19 @@ There are two ways to implement a practice exercise. You can follow all the 13 s
   - `[SLUG].v`
   - `.meta/example.v`
 5. Write an example implementation in `[SLUG].v`
-6. Write a test suite in `run_test.v` based on the canonical data in [problem-specifications](https://github.com/exercism/problem-specifications/tree/main/exercises). Here's an example of [canonical data](https://github.com/exercism/problem-specifications/blob/main/exercises/grade-school/canonical-data.json) and here's the [corresponding test suite](./exercises/practice/grade-school/run_test.v).
-7. Run the test suite with `v -stats test run_test.v`
-8. Once all tests pass, make sure code is formatted properly with `v fmt -w [V_FILE]` on all the v files (example and test files)
-9. Copypaste everything in `[SLUG].v` into `.meta/example.v`
-10. Remove everything from `[SLUG].v` except the stub of the needed function, the `module main` at the top, and make a stub of a struct or two.
-11. Add needed info to the `...[SLUG]/.meta/config.json` file:
+6. Write a test generator in `.meta/test_generator.py`. It will receive the canonical data in [problem-specifications](https://github.com/exercism/problem-specifications/tree/main/exercises). Here's an example of [canonical data](https://github.com/exercism/problem-specifications/blob/main/exercises/grade-school/canonical-data.json).
+7. Generate `run_test.v` by running `generators/generate [SLUG]`
+8. Run the test suite with `v -stats test run_test.v`
+9. Once all tests pass, make sure code is formatted properly with `v fmt -w [V_FILE]` on all the v files (example and test files)
+10. Copypaste everything in `[SLUG].v` into `.meta/example.v`
+11. Remove everything from `[SLUG].v` except the stub of the needed function, the `module main` at the top, and make a stub of a struct or two.
+12. Add needed info to the `...[SLUG]/.meta/config.json` file:
   - Author's GitHub username
   - solution file name (should be `[SLUG].v`)
   - test file name (should be `run_test.v`)
   - example solution file name (should be `.meta/example.v`)
-12. Commit changes with [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
-13. Make your PR and do a little happy dance
+13. Commit changes with [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
+14. Make your PR and do a little happy dance
 
 ![](https://media3.giphy.com/media/ghVtt3BfMwYhi/giphy.gif?cid=790b7611a39608242e7ad1acf94c07788cdcada74ca02528&rid=giphy.gif&ct=g)
 
