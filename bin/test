@@ -36,12 +36,13 @@ for practice_exercise_dir in ./exercises/practice/*/; do
         # TODO: run command to verify that the example solution passes the tests
         # create new tmp directory
         mkdir temp
-        # copy and rename example.v file
-        cp "${practice_exercise_dir}.meta/example.v" "temp/${stub}.v"
-        # copy test v file
-        cp "${practice_exercise_dir}run_test.v" "temp/run_test.v"
-        # run tests in tmp directory
-        v -stats test temp/run_test.v
+        # copy the exercise, including any files the tests read
+        cp -r "${practice_exercise_dir}." temp
+        # replace the stub with the example solution
+        solution="$(jq -r '.files.solution[0]' "${practice_exercise_dir}.meta/config.json")"
+        cp "${practice_exercise_dir}.meta/example.v" "temp/${solution}"
+        # run tests in tmp directory, as the test runner does
+        (cd temp && v -stats test run_test.v)
 
         if [ $? != 0 ]; then
             exit_code=1

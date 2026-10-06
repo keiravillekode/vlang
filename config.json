@@ -833,6 +833,14 @@
         "difficulty": 6
       },
       {
+        "slug": "grep",
+        "name": "Grep",
+        "uuid": "28f6ca95-0c26-474b-becd-65f76d298472",
+        "practices": [],
+        "prerequisites": [],
+        "difficulty": 6
+      },
+      {
         "slug": "intergalactic-transmission",
         "name": "Intergalactic Transmission",
         "uuid": "7e785412-a9ce-469b-9a31-1ae560f928c9",
