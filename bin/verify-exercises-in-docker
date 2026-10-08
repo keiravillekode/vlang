@@ -40,6 +40,8 @@ run_tests() {
 
     docker run \
         --rm \
+        --init \
+        --env TINI_KILL_PROCESS_GROUP=1 \
         --network none \
         --read-only \
         --mount type=bind,src="${PWD}",dst=/solution \
